@@ -40,10 +40,11 @@ runs:
         SERVICE_NAME: ${{ inputs.service-name }}
       run: |
         ROOT=$PWD
-
         TARGET_CHART_PATH="$ROOT/zero-trusted-pipeline/charts/$SERVICE_NAME"
-
         cd $TARGET_CHART_PATH
+
+        git checkout main
+        git pull -r origin main
 
         yq e --inplace '.image.tag |= strenv(VERSION)' values.yaml
         echo "helm template $SERVICE_NAME . --values values.yaml"
