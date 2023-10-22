@@ -9,7 +9,7 @@ jobs:
   deploy-image:
     runs-on: ubuntu-latest
     env:
-      SERVICE_NAME: "iise"
+      SERVICE_NAME: "atlantis"
     outputs:
       deploy-env: ${{ steps.version.outputs.deploy-env }}
       version: ${{ github.ref_name }}

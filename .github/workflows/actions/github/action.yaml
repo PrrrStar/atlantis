@@ -23,12 +23,8 @@ runs:
       uses: actions/checkout@v4
       with:
         token: ${{ inputs.github-pat }}
-
-    - name: Set git user name
-      run: |
-        git config --global user.email "${{ inputs.github-username }}"
-        git config --global user.name "${{ inputs.github-username }}"
-      shell: bash
+        repository: "PrrrStar/zero-trusted-pipeline"
+        ref: "main"
 
     - name: Change version in zero-trusted-pipeline
       env:
@@ -37,30 +33,18 @@ runs:
         SERVICE_NAME: ${{ inputs.service-name }}
       run: |
         ROOT=$PWD
-        MODULE_PATH="$(cd "$(dirname "$0")" && pwd)"
-        CHART_PATH="$ROOT/zero-trusted-pipeline/charts"
+        TARGET_CHART_PATH="$ROOT/zero-trusted-pipeline/charts/$SERVICE_NAME"
 
-        cd $CHART_PATH
+        cd $TARGET_CHART_PATH
 
-        git checkout main
-        git pull -r origin main
-
-        for ENV in $DEPLOY_ENV; do
-          if [ ! -f "values/$SERVICE_NAME/values.$ENV.yaml" ]; then
-            echo "values.$ENV.yaml does not exist"
-            continue
-          fi
-          sed -i "s/version:.*/version: $VERSION/g" values/$SERVICE_NAME/values.$ENV.yaml
-          echo "helm template $SERVICE_NAME . --values values/$SERVICE_NAME/values.$ENV.yaml"
-
-          cd $CHART_PATH
-        done
+        yq e --inplace '.image.tag = "$VERSION"' values.yaml
+        echo "helm template $SERVICE_NAME . --values values.yaml"
 
         cd $ROOT/zero-trusted-pipeline
         git diff
 
         set +e
-        git commit -am "[DevOps-BOT] Release Version : $VERSION"
+        git commit -am "[Release] Version : $VERSION"
         git push origin main -f
         set -e
       shell: bash
