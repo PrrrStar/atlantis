@@ -19,12 +19,13 @@ runs:
         curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
       shell: bash
 
-    - name: Checkout zero-trusted-pipeline
+    - name: Checkout zero-trusted-pipeline repository
       uses: actions/checkout@v4
       with:
         token: ${{ inputs.github-pat }}
         repository: "PrrrStar/zero-trusted-pipeline"
         ref: "main"
+        path: "zero-trusted-pipeline"
 
     - name: Change version in zero-trusted-pipeline
       env:
@@ -33,7 +34,10 @@ runs:
         SERVICE_NAME: ${{ inputs.service-name }}
       run: |
         ROOT=$PWD
-        TARGET_CHART_PATH="$ROOT/zero-trusted-pipeline/charts/$SERVICE_NAME"
+        echo $ROOT
+        echo ls -al
+
+        TARGET_CHART_PATH="$ROOT/charts/$SERVICE_NAME"
 
         cd $TARGET_CHART_PATH
 

@@ -36,7 +36,7 @@ jobs:
             github/data/zero-trusted-pipeline GCP_WORKLOAD_IDENTITY_PROVIDER | GCP_WORKLOAD_IDENTITY_PROVIDER ;
             github/data/zero-trusted-pipeline GCP_GAR_ADDRESS | GCP_GAR_ADDRESS ;
 
-      - name: Checkout zero-trusted-pipeline
+      - name: Checkout atlantis repository
         uses: actions/checkout@v4
         with:
           token: ${{ env.GITHUB_PAT }}
@@ -59,7 +59,17 @@ jobs:
           gcp-service-account: ${{ env.GCP_SA_D_DEVOPS_DEPLOY }}
           gcp-workload-identity-provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           gcp-gar-address: ${{ env.GCP_GAR_ADDRESS }}
-
+  update-image:
+    runs-on: ubuntu-latest
+    env:
+      SERVICE_NAME: "atlantis"
+    outputs:
+      deploy-env: ${{ steps.version.outputs.deploy-env }}
+      version: ${{ github.ref_name }}
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
       - name: Update the service version in charts
         uses: ./.github/workflows/actions/github
         with:
