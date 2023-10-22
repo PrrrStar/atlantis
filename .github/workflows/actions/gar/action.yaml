@@ -48,7 +48,7 @@ runs:
     - name: Set current date as env variable
       id: date
       run: echo "now=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-      bash: bash
+      shell: bash
 
     - name: Tag Docker image and push to Google Artifact Registry
       id: docker-push-tagged
