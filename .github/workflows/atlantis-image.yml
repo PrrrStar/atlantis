@@ -1,12 +1,12 @@
 name: atlantis-image
 
 on:
-  push:
-    branches:
-      - 'main'
-    tags:
-      - v*.*.* # stable release like, v0.19.2
-      - v*.*.*-pre.* # pre release like, v0.19.0-pre.calendardate
+#  push:
+#    branches:
+#      - 'main'
+#    tags:
+#      - v*.*.* # stable release like, v0.19.2
+#      - v*.*.*-pre.* # pre release like, v0.19.0-pre.calendardate
   pull_request:
     paths:
       - 'Dockerfile'

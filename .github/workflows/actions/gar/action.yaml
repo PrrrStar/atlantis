@@ -64,4 +64,3 @@ runs:
           ATLANTIS_VERSION=${{ inputs.version }}
           ATLANTIS_COMMIT=${{ steps.commit.outputs.sha_short }}
           ATLANTIS_DATE=${{ steps.date.outputs.now }}
-        platforms: linux/arm64/v8,linux/amd64,linux/arm/v7
