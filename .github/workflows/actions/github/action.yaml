@@ -27,6 +27,12 @@ runs:
         ref: "main"
         path: "zero-trusted-pipeline"
 
+    - name: Set git user name
+      run: |
+        git config --global user.email "jmeef0802@gmail.com"
+        git config --global user.name "${{ inputs.github-username }}"
+      shell: bash
+
     - name: Change version in zero-trusted-pipeline
       env:
         VERSION: ${{ inputs.version }}
