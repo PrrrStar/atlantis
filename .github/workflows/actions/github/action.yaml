@@ -35,9 +35,9 @@ runs:
       run: |
         ROOT=$PWD
         echo $ROOT
-        echo ls -al
+        echo $(ls)
 
-        TARGET_CHART_PATH="$ROOT/charts/$SERVICE_NAME"
+        TARGET_CHART_PATH="$ROOT/zero-trusted-pipeline/charts/$SERVICE_NAME"
 
         cd $TARGET_CHART_PATH
 
